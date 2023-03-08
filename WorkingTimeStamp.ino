@@ -12,8 +12,8 @@ const int   daylightOffset_sec = 0;
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, ntpServer, gmtOffset_sec, daylightOffset_sec);
 
-const char* ssid = "RedDwarf";
-const char* password = "punkrocker";
+const char* ssid = "";
+const char* password = "";
 
 // LCD Screen 16 x 2 rows.
 #define SDA 13                     // Define SDA pins
@@ -132,7 +132,7 @@ void loop() {
     lcd.setCursor(0, 0);
     lcd.print("Fetching.....");
     HTTPClient http;
-    http.begin("https://docs.google.com/spreadsheets/d/e/2PACX-1vSnIfxs26iDKFOrYUTsMduy9rukkBsYK4UDTKws5Ap-4IP31JavpDqZS3ouN5wXKrP_Ezu6mJZC04RU/pubhtml");
+    http.begin("ENTER_YOUR_GOOGLE_SHEET_WEB_PUBLIC_PUBLISHED_SHEET_URL_HERE_USE_EXAMPLE_BELOW");
     int httpCode = http.GET();
     if (httpCode == HTTP_CODE_OK) {
       String html = http.getString();
