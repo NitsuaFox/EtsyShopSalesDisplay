@@ -1,0 +1,33 @@
+function updateSales() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var urls = sheet.getRange("A1:A10").getValues().flat();
+  var sales = sheet.getRange("B1:B10").getValues();
+  var newSales = [];
+  for (var i = 0; i < urls.length; i++) {
+    if (urls[i]) {
+      var response = UrlFetchApp.fetch(urls[i]);
+      var content = response.getContentText();
+      var salesMatch = content.match(/(\d+) Sales<\/div>/);
+      if (salesMatch) {
+        var salesValue = parseInt(salesMatch[1]);
+        newSales.push([salesValue]);
+      } else {
+        newSales.push([""]);
+      }
+    } else {
+      newSales.push([""]);
+    }
+  }
+  sheet.getRange("B1:B10").setValues(newSales);
+}
+
+function setupTrigger() {
+  ScriptApp.newTrigger("updateSales")
+    .timeBased()
+    .everyMinutes(1)
+    .create();
+}
+
+function start() {
+  updateSales();
+}
